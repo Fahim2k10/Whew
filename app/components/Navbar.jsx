@@ -11,7 +11,7 @@ const Navbar = () => {
   const links = [
     { href: "/", icon: "/icons/home.svg", label: "Home" },
     { href: "/play", icon: "/icons/circle.svg", label: "Play" },
-    { href: "/", icon: "/icons/upload.svg", label: "Upload" },
+    { href: "/upload", icon: "/icons/upload.svg", label: "Upload" },
     { href: "/", icon: "/icons/github.svg", label: "Github" },
   ];
 
@@ -53,7 +53,7 @@ const Navbar = () => {
         <img
           src="/icons/hamburger.svg"
           alt="hamburger"
-          className="h-10 mt-1 ml-2 sm:hidden cursor-pointer"
+          className="h-10 mt-1 ml-2 mr-3 sm:hidden cursor-pointer"
           onClick={() => setIsOpen(true)}
         />
       </div>
