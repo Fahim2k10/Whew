@@ -1,5 +1,4 @@
-# WeatherTunes
-
+# Whew
 A web app that recommends and plays songs based on the weather. Users
 can also upload their own MP3 files.
 
@@ -17,6 +16,7 @@ can also upload their own MP3 files.
 -   Convex (backend/database)\
 -   Cloudinary (file storage)\
 -   TailwindCSS (styling)\
+-   Motion (animation typ shi)\
 -   OpenWeather API (weather data)
 
 ## Setup
@@ -24,16 +24,15 @@ can also upload their own MP3 files.
 1.  Clone the repo and install dependencies:
 
     ``` bash
-    git clone https://github.com/your-username/weathertunes.git
-    cd weathertunes
+    git clone https://github.com/Fahim2k10/Whew
+    cd whew
     npm install
     ```
 
 2.  Configure environment variables in `.env.local`:
 
-        NEXT_PUBLIC_CONVEX_URL=your-convex-url
-        NEXT_PUBLIC_CLOUD_NAME=your-cloud-name
-        NEXT_PUBLIC_CLOUD_PRESET=your-upload-preset
+        CONVEX_DEPLOYMENT=Deployment used by `npx convex dev`
+        NEXT_PUBLIC_CONVEX_URL= Convex api
         NEXT_PUBLIC_WEATHER_API_KEY=your-weather-api-key
 
 3.  Run development server:
@@ -47,7 +46,3 @@ can also upload their own MP3 files.
 -   Frontend: Vercel\
 -   Backend: Convex (`npx convex deploy`)\
 -   Environment variables must be set in Vercel dashboard
-
-## License
-
-MIT © 2025
