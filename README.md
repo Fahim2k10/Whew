@@ -31,9 +31,8 @@ can also upload their own MP3 files.
 
 2.  Configure environment variables in `.env.local`:
 
-        NEXT_PUBLIC_CONVEX_URL=your-convex-url
-        NEXT_PUBLIC_CLOUD_NAME=your-cloud-name
-        NEXT_PUBLIC_CLOUD_PRESET=your-upload-preset
+        CONVEX_DEPLOYMENT=Deployment used by `npx convex dev`
+        NEXT_PUBLIC_CONVEX_URL= Convex api
         NEXT_PUBLIC_WEATHER_API_KEY=your-weather-api-key
 
 3.  Run development server:
