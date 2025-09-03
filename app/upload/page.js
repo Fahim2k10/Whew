@@ -1,9 +1,75 @@
 "use client";
 
+import { useState } from "react";
 import { jaro, space } from "../fonts.js";
-import NeoBtn from "../components/NeoBtn";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 export default function Home() {
+  const addSong = useMutation(api.songs.addSong);
+
+  const [title, setTitle] = useState("");
+  const [uploader, setUploader] = useState("");
+  const [genre, setGenre] = useState("");
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const genres = [
+    "Pop",
+    "K-Pop",
+    "Hip-Hop",
+    "R&B",
+    "Lo-fi",
+    "EDM",
+    "Acoustic",
+    "Bollywood",
+    "Phonk",
+  ];
+
+  const handleUpload = async () => {
+    if (!title || !uploader || !genre || !file) {
+      alert("Please fill all fields and upload a file!");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "whew-music");
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dr8j7r365/video/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+      if (!data.secure_url) throw new Error("Upload failed");
+
+      await addSong({
+        title,
+        uploader,
+        genre,
+        url: data.secure_url,
+      });
+
+      alert("Song uploaded successfully 🎵");
+      setTitle("");
+      setUploader("");
+      setGenre("");
+      setFile(null);
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className={`min-h-[calc(100vh-96px)] w-screen flex items-center justify-center flex-col px-4 ${space.className}`}
@@ -22,6 +88,8 @@ export default function Home() {
             Song Name
             <input
               type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter song name"
               className="neobrutal w-full mt-2 p-2 border-4 border-black rounded-md bg-white"
             />
@@ -32,9 +100,28 @@ export default function Home() {
             Your Name
             <input
               type="text"
+              value={uploader}
+              onChange={(e) => setUploader(e.target.value)}
               placeholder="Enter your name"
               className="neobrutal w-full mt-2 p-2 border-4 border-black rounded-md bg-white"
             />
+          </label>
+
+          {/* Genre Dropdown */}
+          <label className="font-bold text-black">
+            Select Genre
+            <select
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}
+              className="neobrutal w-full mt-2 p-2 border-4 border-black rounded-md bg-white"
+            >
+              <option value="">-- Select a Genre --</option>
+              {genres.map((g) => (
+                <option key={g} value={g}>
+                  {g}
+                </option>
+              ))}
+            </select>
           </label>
 
           {/* MP3 Upload */}
@@ -42,7 +129,25 @@ export default function Home() {
             Upload MP3
             <input
               type="file"
-              accept=".mp3"
+              accept=".mp3,audio/mpeg"
+              onChange={(e) => {
+                const selectedFile = e.target.files[0];
+                if (!selectedFile) return;
+
+                if (selectedFile.type !== "audio/mpeg") {
+                  alert("Only MP3 files are allowed!");
+                  e.target.value = "";
+                  setFile(null);
+                  return;
+                }
+                if (selectedFile.size > 10 * 1024 * 1024) {
+                  alert("File size must be less than 10MB!");
+                  e.target.value = "";
+                  setFile(null);
+                  return;
+                }
+                setFile(selectedFile);
+              }}
               className="neobrutal w-full mt-2 p-2 border-4 border-black rounded-md bg-white 
                 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-md 
                 file:bg-black file:text-white hover:file:bg-gray-800"
@@ -50,7 +155,7 @@ export default function Home() {
           </label>
         </div>
 
-        {/* Shapes */}
+        {/* 🎨 Floating Shapes (your icons kept as they were) */}
         <img
           src="/shapes/star.svg"
           alt="star"
@@ -64,7 +169,7 @@ export default function Home() {
         <img
           src="/shapes/cuboid.svg"
           alt="cuboid"
-          className="w-30 max-md:w-15 absolute right-110 max-md:right-10 -top-45 max-md:-top-20"
+          className="w-30 max-md:w-15 absolute right-110 max-md:right-10 -top-30 max-md:-top-20"
         />
         <img
           src="/shapes/cylinder.svg"
@@ -80,14 +185,25 @@ export default function Home() {
 
       {/* Upload Button */}
       <button
-        onClick={()=> console.log("yes")}
-        className="py-2 px-8 bg-primary rounded-md neobrutal rotate-5"
+        onClick={handleUpload}
+        disabled={loading}
+        className="py-2 px-8 bg-primary rounded-md neobrutal rotate-5 disabled:opacity-50"
       >
         <h3 className={`text-5xl ${jaro.className} relative max-md:text-2xl`}>
-          UPLOAD
+          {loading ? "UPLOADING..." : "UPLOAD"}
         </h3>
       </button>
-      
+
+      <a
+        href="https://mp3juice.co/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-5 text-sm text-gray-600 underline hover:text-gray-900 transition-colors"
+      >
+        Need an MP3? Download here
+      </a>
+
+      {/* Download Button */}
     </div>
   );
 }

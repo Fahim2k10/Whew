@@ -240,11 +240,10 @@ const Player = ({ data, func }) => {
   );
 };
 
-
 // Weather → Genres mapping
 function getCommonGenres(conditions) {
   const weatherToGenres = {
-    Clear: ["Mainstream Pop", "EDM", "Phonk"],
+    Clear: ["Pop", "EDM", "Phonk"],
     Clouds: ["Lo-fi", "R&B", "Acoustic"],
     Rain: ["Lo-fi", "Acoustic", "R&B"],
     Thunderstorm: ["Hip-Hop", "Phonk", "EDM"],
@@ -269,7 +268,7 @@ function getCommonGenres(conditions) {
 
   // Fallback if nothing matched
   if (matchedGenres.length === 0) {
-    matchedGenres = ["Mainstream Pop", "Hip-Hop", "Bollywood"];
+    matchedGenres = ["Pop", "Hip-Hop", "Bollywood"];
   }
 
   return matchedGenres;

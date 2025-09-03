@@ -15,7 +15,7 @@ export default function Home() {
         <img
           src="/lines/point.svg"
           alt="line"
-          className="w-50 absolute top-60 z-40 left-180 max-md:left-12 max-md:w-30 "
+          className="w-50 absolute top-63 z-40 right-[50vw] max-md:w-30 "
         />
         <img
           src="/shapes/star.svg"
