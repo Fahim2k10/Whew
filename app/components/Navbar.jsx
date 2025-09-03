@@ -12,7 +12,11 @@ const Navbar = () => {
     { href: "/", icon: "/icons/home.svg", label: "Home" },
     { href: "/play", icon: "/icons/circle.svg", label: "Play" },
     { href: "/upload", icon: "/icons/upload.svg", label: "Upload" },
-    { href: "/", icon: "/icons/github.svg", label: "Github" },
+    {
+      href: "https://github.com/Fahim2k10/Whew",
+      icon: "/icons/github.svg",
+      label: "Github",
+    },
   ];
 
   return (
@@ -27,27 +31,41 @@ const Navbar = () => {
             className="w-30 absolute left-0 top-full"
           />
         </h1>
-        <img
-          src="/icons/music.svg"
-          alt="music"
-          className="h-10 w-10 mt-1 ml-2"
-        />
+        <img src="/icons/music.svg" alt="music" className="h-10 w-10 mt-1 ml-2" />
       </div>
 
       {/* Right Section (Links for desktop) */}
       <div className="flex gap-8">
-        {links.map((item, idx) => (
-          <Link key={idx} href={item.href}>
-            <motion.img
-              src={item.icon}
-              alt="nav-icon"
-              className="w-10 cursor-pointer max-sm:hidden"
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            />
-          </Link>
-        ))}
+        {links.map((item, idx) =>
+          item.href.startsWith("http") ? (
+            <a
+              key={idx}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <motion.img
+                src={item.icon}
+                alt="nav-icon"
+                className="w-10 cursor-pointer max-sm:hidden"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              />
+            </a>
+          ) : (
+            <Link key={idx} href={item.href}>
+              <motion.img
+                src={item.icon}
+                alt="nav-icon"
+                className="w-10 cursor-pointer max-sm:hidden"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              />
+            </Link>
+          )
+        )}
 
         {/* Hamburger Icon (Mobile Only) */}
         <img
@@ -90,17 +108,39 @@ const Navbar = () => {
               </div>
 
               <div className="flex flex-col gap-4 pb-2">
-                {links.map((item, idx) => (
-                  <Link
-                    key={idx}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 text-lg font-medium"
-                  >
-                    <img src={item.icon} alt={item.label} className="w-6 h-6" />
-                    {item.label}
-                  </Link>
-                ))}
+                {links.map((item, idx) =>
+                  item.href.startsWith("http") ? (
+                    <a
+                      key={idx}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-lg font-medium"
+                    >
+                      <img
+                        src={item.icon}
+                        alt={item.label}
+                        className="w-6 h-6"
+                      />
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={idx}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-lg font-medium"
+                    >
+                      <img
+                        src={item.icon}
+                        alt={item.label}
+                        className="w-6 h-6"
+                      />
+                      {item.label}
+                    </Link>
+                  )
+                )}
               </div>
             </motion.div>
           </>
