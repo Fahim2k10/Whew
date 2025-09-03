@@ -155,7 +155,7 @@ export default function Home() {
           </label>
         </div>
 
-        {/* 🎨 Floating Shapes (your icons kept as they were) */}
+        {/*Floating Shapes */}
         <img
           src="/shapes/star.svg"
           alt="star"
