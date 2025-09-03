@@ -125,6 +125,7 @@ const Search = ({ func }) => {
 };
 
 // Player with Convex songs
+// Player with Convex songs (random start)
 const Player = ({ data, func }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
@@ -135,12 +136,13 @@ const Player = ({ data, func }) => {
     selectedGenre ? { genre: selectedGenre } : "skip"
   );
 
+  const getRandomIndex = (len) => Math.floor(Math.random() * len);
+
   const handleNext = () => {
     if (!songs || songs.length === 0) return;
-    const nextIndex = (currentSongIndex + 1) % songs.length;
+    const nextIndex = getRandomIndex(songs.length);
     setCurrentSongIndex(nextIndex);
 
-    // play next automatically
     if (audioRef.current) {
       audioRef.current.load();
       audioRef.current.play().catch(() => {});
@@ -148,9 +150,9 @@ const Player = ({ data, func }) => {
   };
 
   useEffect(() => {
-    // whenever songs reset (new genre), autoplay first track
     if (songs && songs.length > 0 && audioRef.current) {
-      setCurrentSongIndex(0);
+      const randomIndex = getRandomIndex(songs.length);
+      setCurrentSongIndex(randomIndex);
       audioRef.current.load();
       audioRef.current.play().catch(() => {});
     }
@@ -177,7 +179,6 @@ const Player = ({ data, func }) => {
               key={idx}
               onClick={() => {
                 setSelectedGenre(genre);
-                setCurrentSongIndex(0);
               }}
               className={`py-2 px-6 rounded-md border-4 border-black neobrutal 
                 ${selectedGenre === genre ? "bg-primary text-white" : "bg-white text-black"}
@@ -239,6 +240,7 @@ const Player = ({ data, func }) => {
     </div>
   );
 };
+
 
 // Weather → Genres mapping
 function getCommonGenres(conditions) {
