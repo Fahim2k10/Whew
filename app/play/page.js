@@ -285,7 +285,7 @@ function getCommonGenres(conditions) {
     Clouds: ["Lo-fi", "Bollywood", "Acoustic"],
     Rain: ["Lo-fi", "Acoustic", "R&B"],
     Thunderstorm: ["Hip-Hop", "Phonk", "EDM"],
-    Snow: ["Acoustic", "Lo-fi", "K-Pop"],
+    Snow: ["Acoustic", "Bhojpuri", "K-Pop"],
     Mist: ["Lo-fi", "R&B", "Acoustic"],
     Fog: ["Lo-fi", "R&B", "Acoustic"],
     Haze: ["Lo-fi", "R&B", "Acoustic"],
