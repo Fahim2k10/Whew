@@ -281,7 +281,7 @@ const Player = ({ data, func }) => {
 // Weather → Genres mapping
 function getCommonGenres(conditions) {
   const weatherToGenres = {
-    Clear: ["Pop", "EDM", "Phonk"],
+    Clear: ["Pop", "EDM", "Hip-Hop"],
     Clouds: ["Lo-fi", "Bollywood", "Acoustic"],
     Rain: ["Lo-fi", "Acoustic", "R&B"],
     Thunderstorm: ["Hip-Hop", "Phonk", "EDM"],
