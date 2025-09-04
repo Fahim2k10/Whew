@@ -13,6 +13,7 @@ export default function Home() {
   const [genre, setGenre] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [fileKey, setFileKey] = useState(0); // <--- new
 
   const genres = [
     "Pop",
@@ -63,6 +64,7 @@ export default function Home() {
       setUploader("");
       setGenre("");
       setFile(null);
+      setFileKey((prev) => prev + 1); // <--- reset file input
     } catch (err) {
       console.error(err);
       alert("Upload failed!");
@@ -129,6 +131,7 @@ export default function Home() {
           <label className="font-bold text-black">
             Upload MP3
             <input
+              key={fileKey} // <--- the trick
               type="file"
               accept=".mp3,audio/mpeg"
               onChange={(e) => {
@@ -203,8 +206,6 @@ export default function Home() {
       >
         Need an MP3? Download here
       </a>
-
-      {/* Download Button */}
     </div>
   );
 }

@@ -124,11 +124,11 @@ const Search = ({ func }) => {
   );
 };
 
-// Player with Convex songs (random start)
 // Player with Convex songs (random start + floating icons)
 const Player = ({ data, func }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [playlist, setPlaylist] = useState([]); // shuffled list of indexes
+  const [currentPos, setCurrentPos] = useState(0);
   const audioRef = useRef(null);
 
   const songs = useQuery(
@@ -136,12 +136,27 @@ const Player = ({ data, func }) => {
     selectedGenre ? { genre: selectedGenre } : "skip"
   );
 
-  const getRandomIndex = (len) => Math.floor(Math.random() * len);
+  // Fisher-Yates shuffle
+  const shuffleArray = (arr) => {
+    const newArr = [...arr];
+    for (let i = newArr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    }
+    return newArr;
+  };
 
   const handleNext = () => {
     if (!songs || songs.length === 0) return;
-    const nextIndex = getRandomIndex(songs.length);
-    setCurrentSongIndex(nextIndex);
+
+    if (currentPos < playlist.length - 1) {
+      setCurrentPos(currentPos + 1);
+    } else {
+      // reshuffle when exhausted
+      const newPlaylist = shuffleArray([...Array(songs.length).keys()]);
+      setPlaylist(newPlaylist);
+      setCurrentPos(0);
+    }
 
     if (audioRef.current) {
       audioRef.current.load();
@@ -149,23 +164,29 @@ const Player = ({ data, func }) => {
     }
   };
 
+  // When songs load or genre changes → make a fresh playlist
   useEffect(() => {
-    if (songs && songs.length > 0 && audioRef.current) {
-      const randomIndex = getRandomIndex(songs.length);
-      setCurrentSongIndex(randomIndex);
+    if (songs && songs.length > 0) {
+      const newPlaylist = shuffleArray([...Array(songs.length).keys()]);
+      setPlaylist(newPlaylist);
+      setCurrentPos(0);
+    }
+  }, [songs]);
+
+  // Auto-play first song when playlist updates
+  useEffect(() => {
+    if (playlist.length > 0 && audioRef.current) {
       audioRef.current.load();
       audioRef.current.play().catch(() => {});
     }
-  }, [songs]);
+  }, [playlist, currentPos]);
 
   return (
     <div
       className={`min-h-[calc(100vh-96px)] w-screen flex flex-col items-center justify-center px-4 relative ${space.className} pb-10`}
     >
       <div className="relative w-full flex justify-center mb-6">
-        {/* Player Box */}
         <div className="w-[50vw] max-md:w-full bg-accent neobrutal p-6 flex flex-col gap-6 relative z-10 mb-6">
-          {/* Weather Info */}
           <div className="flex justify-between text-lg text-black font-bold">
             <span>{data?.weather}</span>
           </div>
@@ -176,94 +197,57 @@ const Player = ({ data, func }) => {
             Choose a vibe 🎶
           </h2>
 
-          {/* Genre Options */}
           <div className="flex flex-wrap gap-4 justify-center">
             {data?.genres?.map((genre, idx) => (
               <button
                 key={idx}
-                onClick={() => {
-                  setSelectedGenre(genre);
-                }}
+                onClick={() => setSelectedGenre(genre)}
                 className={`py-2 px-6 rounded-md border-4 border-black neobrutal 
-                  ${selectedGenre === genre ? "bg-primary text-white" : "bg-white text-black"}
-                `}
+                  ${
+                    selectedGenre === genre
+                      ? "bg-primary text-white"
+                      : "bg-white text-black"
+                  }`}
               >
                 {genre}
               </button>
             ))}
           </div>
 
-          {/* Song Player */}
-          {selectedGenre && (
-            <div className="mt-6 text-center">
-              {!songs ? (
-                <p className="text-lg text-black">Fetching songs...</p>
-              ) : songs.length === 0 ? (
-                <p className="text-lg text-black">
-                  No songs found for <b>{selectedGenre}</b>
-                </p>
-              ) : (
-                <div className="flex flex-col items-center gap-4">
-                  <h3 className="text-2xl font-bold text-black">
-                    {songs[currentSongIndex].title}
-                  </h3>
-                  <p className="text-black">
-                    Uploader: {songs[currentSongIndex].uploader}
-                  </p>
-                  <audio
-                    ref={audioRef}
-                    key={songs[currentSongIndex]._id}
-                    controls
-                    autoPlay
-                    onEnded={handleNext}
-                    className="w-full"
-                  >
-                    <source
-                      src={songs[currentSongIndex].url}
-                      type="audio/mpeg"
-                    />
-                  </audio>
-                  <button
-                    onClick={handleNext}
-                    className="py-2 px-6 bg-primary text-white rounded-md neobrutal rotate-3"
-                  >
-                    Next Song
-                  </button>
-                </div>
-              )}
+          {songs && playlist.length > 0 && songs[playlist[currentPos]] ? (
+            <div className="flex flex-col items-center gap-4">
+              <h3 className="text-2xl font-bold text-black">
+                {songs[playlist[currentPos]].title}
+              </h3>
+              <p className="text-black">
+                Uploader: {songs[playlist[currentPos]].uploader}
+              </p>
+              <audio
+                ref={audioRef}
+                key={songs[playlist[currentPos]]._id}
+                controls
+                autoPlay
+                onEnded={handleNext}
+                className="w-full"
+              >
+                <source
+                  src={songs[playlist[currentPos]].url}
+                  type="audio/mpeg"
+                />
+              </audio>
+              <button
+                onClick={handleNext}
+                className="py-2 px-6 bg-primary text-white rounded-md neobrutal rotate-3"
+              >
+                Next Song
+              </button>
             </div>
+          ) : (
+            <p className="text-lg text-black">Loading song...</p>
           )}
         </div>
-
-        {/* Floating Shapes */}
-        <img
-          src="/shapes/star.svg"
-          alt="star"
-          className="w-35 max-md:w-20 absolute left-95 max-md:left-10 -top-35 max-md:-top-20"
-        />
-        <img
-          src="/shapes/cone.svg"
-          alt="cone"
-          className="w-25 max-md:w-15 absolute left-70 max-md:left-5 top-110 max-md:top-110"
-        />
-        <img
-          src="/shapes/cuboid.svg"
-          alt="cuboid"
-          className="w-30 max-md:w-15 absolute right-110 max-md:right-10 -top-30 max-md:-top-20"
-        />
-        <img
-          src="/shapes/cylinder.svg"
-          alt="cylinder"
-          className="w-30 max-md:w-20 absolute right-80 max-md:right-30 top-110 max-md:top-130"
-        />
-        <img
-          src="/shapes/ring.svg"
-          alt="ring"
-          className="w-30 max-md:w-20 absolute right-70 max-md:right-3 top-40 max-md:top-110"
-        />
       </div>
 
-      {/* Return Button */}
       <button
         onClick={func}
         className="py-2 px-8 bg-primary rounded-md neobrutal rotate-5 relative z-10"
@@ -275,8 +259,6 @@ const Player = ({ data, func }) => {
     </div>
   );
 };
-
-
 
 // Weather → Genres mapping
 function getCommonGenres(conditions) {
