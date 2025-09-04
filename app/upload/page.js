@@ -175,12 +175,12 @@ export default function Home() {
         <img
           src="/shapes/cylinder.svg"
           alt="cylinder"
-          className="w-30 max-md:w-20 absolute right-120 max-md:right-30 top-130 max-md:top-160"
+          className="w-30 max-md:w-20 absolute right-120 max-md:right-30 top-130 max-md:top-155"
         />
         <img
           src="/shapes/ring.svg"
           alt="ring"
-          className="w-30 max-md:w-20 absolute right-70 max-md:right-3 top-50 max-md:top-170"
+          className="w-30 max-md:w-20 absolute right-70 max-md:right-3 top-50 max-md:top-160"
         />
       </div>
 
