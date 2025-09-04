@@ -24,6 +24,7 @@ export default function Home() {
     "Acoustic",
     "Bollywood",
     "Phonk",
+    "Bhojpuri",
   ];
 
   const handleUpload = async () => {
