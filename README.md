@@ -12,11 +12,11 @@ can also upload their own MP3 files.
 
 ## Tech Stack
 
--   Next.js (frontend)\
--   Convex (backend/database)\
--   Cloudinary (file storage)\
--   TailwindCSS (styling)\
--   Motion (animation typ shi)\
+-   Next.js (frontend)
+-   Convex (backend/database)
+-   Cloudinary (file storage)
+-   TailwindCSS (styling)
+-   Motion (animation typ shi)
 -   OpenWeather API (weather data)
 
 ## Setup
