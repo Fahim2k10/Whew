@@ -282,14 +282,14 @@ const Player = ({ data, func }) => {
 function getCommonGenres(conditions) {
   const weatherToGenres = {
     Clear: ["Pop", "EDM", "Phonk"],
-    Clouds: ["Lo-fi", "R&B", "Acoustic"],
+    Clouds: ["Lo-fi", "Bollywood", "Acoustic"],
     Rain: ["Lo-fi", "Acoustic", "R&B"],
     Thunderstorm: ["Hip-Hop", "Phonk", "EDM"],
     Snow: ["Acoustic", "Lo-fi", "K-Pop"],
     Mist: ["Lo-fi", "R&B", "Acoustic"],
     Fog: ["Lo-fi", "R&B", "Acoustic"],
     Haze: ["Lo-fi", "R&B", "Acoustic"],
-    Drizzle: ["Lo-fi", "Acoustic", "Bollywood"],
+    Drizzle: ["Lo-fi", "Acoustic", "R&B"],
     Extreme: ["Hip-Hop", "Phonk", "EDM"],
   };
 
