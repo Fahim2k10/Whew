@@ -19,6 +19,17 @@ can also upload their own MP3 files.
 -   Motion (animation typ shi)
 -   OpenWeather API (weather data)
 
+## Folder structure
+
+-   app (main folder)
+    -   components (ui)
+    -   page.js (home page)
+    -   layout.js (universal layout)
+    -   play (/play route)
+    -   upload (/upload route)
+-   convex (database schema and functions)
+-   public (assets)
+
 ## Setup
 
 1.  Clone the repo and install dependencies:
