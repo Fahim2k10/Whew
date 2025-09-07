@@ -4,10 +4,10 @@ can also upload their own MP3 files.
 
 ## Features
 
--   Weather-based song recommendations using OpenWeather API\
--   Song metadata stored in Convex\
--   File uploads (MP3 only, max 10MB) via Cloudinary\
--   Music player with play, pause, and skip\
+-   Weather-based song recommendations using OpenWeather API
+-   Song metadata stored in Convex
+-   File uploads (MP3 only, max 10MB) via Cloudinary
+-   Music player with play, pause, and skip
 -   Simple upload form with genre selection
 
 ## Tech Stack
@@ -42,9 +42,9 @@ can also upload their own MP3 files.
 
 2.  Configure environment variables in `.env.local`:
 
-        CONVEX_DEPLOYMENT=Deployment used by `npx convex dev`
+        CONVEX_DEPLOYMENT= Deployment used by `npx convex dev`
         NEXT_PUBLIC_CONVEX_URL= Convex api
-        NEXT_PUBLIC_WEATHER_API_KEY=your-weather-api-key
+        NEXT_PUBLIC_WEATHER_API_KEY= weather api
 
 3.  Run development server:
 
@@ -54,6 +54,6 @@ can also upload their own MP3 files.
 
 ## Deployment
 
--   Frontend: Vercel\
--   Backend: Convex (`npx convex deploy`)\
+-   Frontend: Vercel
+-   Backend: Convex (`npx convex deploy`)
 -   Environment variables must be set in Vercel dashboard
